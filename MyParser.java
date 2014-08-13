@@ -14,15 +14,9 @@ public class MyParser {
 	public static ArrayList<String> allCoAuthors = new ArrayList<String>();
 
 
-
-        /**
-         * @param args 
-         * @throws Exception 
-         */
 	
     public static void main(String[] args) throws Exception 
     {		MyParser googleScholarParser=new MyParser();
-            // You can only input 2 arguments
             if (args.length > 2) {
             System.out.println("Please enter an appropriate input");
             }else{
@@ -30,7 +24,7 @@ public class MyParser {
 
             if (args.length == 1) {
             	for (String url:URLS){
-                    googleScholarParser.getHTML(url);//sets rawHTMLString
+                    googleScholarParser.getHTML(url);
 
             System.out.println(googleScholarParser.getGoogleScholarInfo());
             }System.out.println(googleScholarParser.printTotalcoAuthors());
@@ -55,7 +49,7 @@ public class MyParser {
      */
     private String extractAuthorsName() {
     	    String authourName = "";
-            String reForAuthorExtraction = "<span id=\"cit-name-display\" " +  //have method to search regex
+            String reForAuthorExtraction = "<span id=\"cit-name-display\" " +  
                     "class=\"cit-in-place-nohover\">(.*?)</span>";			 
             Pattern patternObject = Pattern.compile(reForAuthorExtraction);
             Matcher matcherObject = patternObject.matcher(rawHTMLString);
@@ -70,7 +64,7 @@ public class MyParser {
    public String getAuthorsName(){
 	   return extractAuthorsName();
    }
-  private int getAllCitations(int index) { //have int index as arg
+  private int getAllCitations(int index) { 
     	return Integer.parseInt(citationsTables().get(index)) ;
   }
 
@@ -81,7 +75,7 @@ public class MyParser {
         Matcher matcherObject = patternObject.matcher(rawHTMLString);
         // Get all of the Citations
         while (matcherObject.find()) {
-            String pubs = matcherObject.group(1);// gives each citation as while loop runs
+            String pubs = matcherObject.group(1);
             citationsList.add(pubs);
         }
         return citationsList;
@@ -94,7 +88,7 @@ public class MyParser {
         Matcher matcherObject = patternObject.matcher(rawHTMLString);
         // Get all of the Citations
         while (matcherObject.find()) {
-            String pubs = matcherObject.group(1);// gives each citation as while loop runs
+            String pubs = matcherObject.group(1);
             publicationList.add(pubs);
         }
         return publicationList;
@@ -113,22 +107,22 @@ public class MyParser {
     
     private ArrayList<String> CitedByTables() {
         ArrayList<String> CitedByList = new ArrayList<String>();
-        String reForCitationExtraction = "(\\>)([0-9]+)(\\<\\/a\\>)"; // \\means literal of what comes after; nbs gets rid of undwanted car=gives null
+        String reForCitationExtraction = "(\\>)([0-9]+)(\\<\\/a\\>)"; 
 
         Pattern patternObject = Pattern.compile(reForCitationExtraction);
         Matcher matcherObject = patternObject.matcher(rawHTMLString);
 
         while (matcherObject.find()) {
-            String pubs = matcherObject.group(2);// gives each citation as while loop runs
+            String pubs = matcherObject.group(2);
             CitedByList.add(pubs);
    
         }
         return CitedByList;
     }
     
-    private int getFirstFiveCitedPublications() { //what if less than 5 citations
+    private int getFirstFiveCitedPublications() { 
         int sum = 0;
-    	for (int i = 0; i < 5; i++){ //while array list is not empty
+    	for (int i = 0; i < 5; i++){ 
 	    sum += Integer.parseInt(CitedByTables().get(i)) ;
 
     	}
@@ -137,12 +131,12 @@ public class MyParser {
     
     private ArrayList<String> coAuthorsTables() {
         ArrayList<String> coAuthorsList = new ArrayList<String>();
-        String reForCitationExtraction = "\" title=\"(.*?)\">";  //means literal of what comes after; nbs gets rid of undwanted car=gives null
+        String reForCitationExtraction = "\" title=\"(.*?)\">";  
         Pattern patternObject = Pattern.compile(reForCitationExtraction);
         Matcher matcherObject = patternObject.matcher(rawHTMLString);
         // Get all of the Citations
         while (matcherObject.find()) {
-            String pubs = matcherObject.group(1);// gives each citation as while loop runs
+            String pubs = matcherObject.group(1);
             coAuthorsList.add(pubs);
             totalCoAuthorList(pubs);
         }Collections.sort(coAuthorsList);
@@ -221,6 +215,6 @@ public class MyParser {
                 "-------------------------------------------" + "\n"
                 + "7. Co-Author list sorted (Total: " + allCoAuthors.size() +":"+ "\n"
                 + getTotalCoAuthorList() + "\n");
-    	return googleScholarcoAuthors; //didnt work cuz didn call prev methods
+    	return googleScholarcoAuthors; 
     }
 }
